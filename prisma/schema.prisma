@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model auctions {
+  id              BigInt     @id @default(autoincrement())
+  name            String     @db.VarChar
+  starting_price  Float
+  time_window     Int        @db.SmallInt
+  last_bid_amount Float      @default(0)
+  created_at      DateTime   @default(now()) @db.Timestamptz(6)
+  published_at    DateTime?  @db.Timestamptz(6)
+  finished_at     DateTime?  @db.Timestamptz(6)
+  status          String     @default("") @db.VarChar
+  owner_email     String     @db.VarChar
+  biddings        biddings[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model biddings {
+  id         BigInt    @id @default(autoincrement())
+  auction_id BigInt?
+  email      String    @db.VarChar
+  bid_amount Float
+  status     String    @db.VarChar
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  auction    auctions? @relation(fields: [auction_id], references: [id])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model deposit_histories {
+  id              BigInt   @id @default(autoincrement())
+  email           String   @db.VarChar
+  initial_balance Float    @default(0)
+  amount          Float    @default(0)
+  ending_balance  Float    @default(0)
+  reason          String   @default("DEPOSIT") @db.VarChar
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+}
