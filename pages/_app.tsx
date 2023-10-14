@@ -6,14 +6,15 @@ import {useState} from "react";
 import * as React from "react";
 import Head from 'next/head';
 
-// @ts-ignore
-BigInt.prototype.toJSON = function () {
-  const int = Number.parseInt(this.toString());
-  return int ?? this.toString();
-};
 
 export default function App({ Component, pageProps }: AppProps) {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
+
+  // @ts-ignore
+  BigInt.prototype.toJSON = function () {
+    const int = Number.parseInt(this.toString());
+    return int ?? this.toString();
+  };
 
   return <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.initialSession}>
     <Head>
