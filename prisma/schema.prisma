@@ -9,7 +9,7 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model auctions {
-  id              BigInt     @id @default(autoincrement())
+  id              Int        @id @default(autoincrement())
   name            String     @db.VarChar
   starting_price  Float
   time_window     Int        @db.SmallInt
@@ -24,8 +24,8 @@ model auctions {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model biddings {
-  id         BigInt    @id @default(autoincrement())
-  auction_id BigInt?
+  id         Int       @id @default(autoincrement())
+  auction_id Int?
   email      String    @db.VarChar
   bid_amount Float
   status     String    @db.VarChar
@@ -35,7 +35,7 @@ model biddings {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model deposit_histories {
-  id              BigInt   @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   email           String   @db.VarChar
   initial_balance Float    @default(0)
   amount          Float    @default(0)
